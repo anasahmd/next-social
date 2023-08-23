@@ -1,3 +1,5 @@
+import User from '@/app/models/User';
+import { compare } from 'bcrypt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 const options = {
@@ -9,11 +11,6 @@ const options = {
 		CredentialsProvider({
 			name: 'Next Social',
 			credentials: {
-				username: {
-					label: 'Username',
-					type: 'text',
-					placeholder: 'Enter your username',
-				},
 				email: {
 					label: 'Email',
 					type: 'email',
@@ -25,10 +22,13 @@ const options = {
 					placeholder: 'Enter your password',
 				},
 			},
-			async authorize(credentials, req) {
-				const user = { id: '1', name: 'J Smith', email: 'jsmith@example.com' };
-
-				if (user) {
+			async authorize(credentials) {
+				const user = await User.findOne({ email: credentials.email });
+				const validatePassword = await compare(
+					credentials.password,
+					user.password
+				);
+				if (validatePassword) {
 					return user;
 				} else {
 					return null;
