@@ -21,7 +21,7 @@ export default function Home() {
 	}, []);
 
 	return (
-		<main className="bg-slate-100 h-screen flex flex-col w-full items-center">
+		<main className="bg-slate-100 min-h-screen flex flex-col w-full items-center">
 			<PostForm fetchPost={fetchPost} />
 			<PostList posts={posts} />
 		</main>
