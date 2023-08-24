@@ -19,6 +19,7 @@ const LoginForm = () => {
 		});
 
 		if (signInResponse && !signInResponse.error) {
+			router.refresh();
 			router.push('/');
 		} else {
 			setError('Email or password is incorrect!');

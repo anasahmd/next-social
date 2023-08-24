@@ -1,12 +1,16 @@
 'use client';
-import ProfileImage from '@/app/60.jpg';
 import Image from 'next/image';
 import { formatDistanceToNowStrict } from 'date-fns';
 
-const Post = ({ text, username, date, profilePic }) => {
+const Post = ({
+	text,
+	username = 'defaultusername',
+	date,
+	profilePic = '/default-profile.png',
+}) => {
 	return (
 		<div className="bg-white w-[30rem] rounded-xl flex flex-col p-4 shadow-sm gap-4">
-			<div className="flex gap-2 items-start">
+			<div className="flex gap-4 items-start">
 				<Image
 					src={profilePic}
 					alt={`Profile Picture of ${username}`}
@@ -31,9 +35,9 @@ const PostList = ({ posts }) => {
 				<div key={value._id}>
 					<Post
 						text={value.text}
-						username={'anasahmad'}
+						username={value.user?.username}
 						date={formatDistanceToNowStrict(new Date(value.createdAt))}
-						profilePic={ProfileImage}
+						profilePic={value.user?.profile}
 					/>
 				</div>
 			))}

@@ -1,7 +1,6 @@
 'use client';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import ProfileImage from '@/app/60.jpg';
 
 const PostForm = ({ fetchPost }) => {
 	const [post, setPost] = useState({ text: '' });
@@ -30,7 +29,7 @@ const PostForm = ({ fetchPost }) => {
 				</label>
 				<div className="flex p-4 gap-4 w-full items-start">
 					<Image
-						src={ProfileImage}
+						src="/default-profile.png"
 						alt=""
 						width={40}
 						height={40}

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Post from './Post';
 
 const userSchema = new mongoose.Schema(
 	{
@@ -6,6 +7,8 @@ const userSchema = new mongoose.Schema(
 		fullName: { type: String, required: true },
 		username: { type: String, unique: true, required: true },
 		password: { type: String, required: true },
+		bio: { type: String },
+		posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
 	},
 	{ timestamps: true }
 );
