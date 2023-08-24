@@ -2,6 +2,7 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import { getServerSession } from 'next-auth';
 import options from './api/auth/[...nextauth]/options';
+import Header from './components/Header';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -13,7 +14,10 @@ export const metadata = {
 export default async function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			<body className={inter.className}>{children}</body>
+			<body className={`${inter.className} bg-slate-100`}>
+				<Header />
+				{children}
+			</body>
 		</html>
 	);
 }

@@ -24,11 +24,11 @@ const options = {
 			},
 			async authorize(credentials) {
 				const user = await User.findOne({ email: credentials.email });
-				const validatePassword = await compare(
+				const validPassword = await compare(
 					credentials.password,
 					user.password
 				);
-				if (validatePassword) {
+				if (validPassword) {
 					return user;
 				} else {
 					return null;
@@ -36,6 +36,26 @@ const options = {
 			},
 		}),
 	],
+
+	session: {
+		strategy: 'jwt',
+	},
+
+	callbacks: {
+		async jwt({ token, user }) {
+			if (user) {
+				token.id = user._id;
+				token.username = user.username;
+			}
+			return token;
+		},
+		async session({ session, token }) {
+			session.user.id = token.id;
+			session.user.username = token.username;
+			return session;
+		},
+	},
+	secret: process.env.NEXT_SECRET,
 };
 
 export default options;

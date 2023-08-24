@@ -2,8 +2,8 @@ import React from 'react';
 
 const page = () => {
 	return (
-		<main className="bg-slate-100 flex justify-center items-center min-h-screen flex-col gap-4">
-			<div className="bg-white p-10 rounded-xl">
+		<main className=" flex  items-center min-h-screen flex-col gap-4 mt-10">
+			<div className="bg-white p-10 rounded-xl shadow-sm">
 				<h1 className="text-3xl font-semibold">Sign Up</h1>
 				<form action="" className="flex flex-col gap-6 mt-8">
 					<div className="flex flex-col gap-1">
@@ -13,7 +13,7 @@ const page = () => {
 						<input
 							type="text"
 							id="fullname"
-							className="form-input rounded-xl border-slate-300"
+							className="input input-bordered w-full max-w-xs"
 							placeholder="Enter your full name"
 						/>
 					</div>
@@ -24,7 +24,7 @@ const page = () => {
 						<input
 							type="text"
 							id="username"
-							className="form-input rounded-xl border-slate-300"
+							className="input input-bordered w-full max-w-xs"
 							placeholder="Enter username"
 						/>
 					</div>
@@ -35,7 +35,7 @@ const page = () => {
 						<input
 							type="email"
 							id="email"
-							className="form-input rounded-xl border-slate-300"
+							className="input input-bordered w-full max-w-xs"
 							placeholder="Enter your email"
 						/>
 					</div>
@@ -46,14 +46,14 @@ const page = () => {
 						<input
 							type="password"
 							id="password"
-							className="form-input rounded-xl border-slate-300"
+							className="input input-bordered w-full max-w-xs"
 							placeholder="Enter your password"
 						/>
 					</div>
 					<div className="flex justify-end mt-4">
 						<button
 							type="submit"
-							className="bg-blue-500 text-white rounded-xl py-2 text-center px-5"
+							className="btn bg-blue-500 hover:bg-blue-600 text-white rounded-xl py-2 text-center px-5 w-full"
 						>
 							Sign Up
 						</button>

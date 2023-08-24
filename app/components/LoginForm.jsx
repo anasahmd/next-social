@@ -43,7 +43,7 @@ const LoginForm = () => {
 					<input
 						type="email"
 						id="email"
-						className="form-input rounded-xl border-slate-300"
+						className="input input-bordered w-full max-w-xs"
 						placeholder="Enter your email"
 						value={email}
 						onChange={(e) => {
@@ -58,7 +58,7 @@ const LoginForm = () => {
 					<input
 						type="password"
 						id="password"
-						className="form-input rounded-xl border-slate-300"
+						className="input input-bordered w-full max-w-xs"
 						placeholder="Enter your password"
 						value={password}
 						onChange={(e) => {
@@ -69,7 +69,7 @@ const LoginForm = () => {
 				<div className="flex  mt-4">
 					<button
 						type="submit"
-						className="bg-blue-500 text-white rounded-xl py-2 text-center px-5 w-full"
+						className="btn bg-blue-500 hover:bg-blue-600 text-white rounded-xl py-2 text-center px-5 w-full"
 					>
 						Login
 					</button>
