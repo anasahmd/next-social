@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import User from './User';
+import Comment from './Comment';
 
 const postSchema = new mongoose.Schema(
 	{
@@ -9,6 +10,16 @@ const postSchema = new mongoose.Schema(
 			ref: 'User',
 		},
 		likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+		edited: {
+			type: Boolean,
+			default: false,
+		},
+		comments: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Comment',
+			},
+		],
 	},
 	{ timestamps: true }
 );
