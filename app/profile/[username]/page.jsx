@@ -4,7 +4,7 @@ import Image from 'next/image';
 const page = async ({ params }) => {
 	const { username } = params;
 	const fetchedData = await fetch(
-		`${process.env.APP_URI}/api/user/profile/${username}`
+		`${process.env.APP_URI}/api/profile/${username}`
 	);
 	const data = await fetchedData.json();
 	const user = data.user;
@@ -27,7 +27,7 @@ const page = async ({ params }) => {
 						</div>
 						<div className=" text-sm text-slate-500">@{user.username}</div>
 						<div className="mt-4 text-center text-slate-700">
-							{'Web Developer and enterpreneur'}
+							{'Web Developer and CSE student'}
 						</div>
 					</div>
 					<div className="flex divide-x w-full items-center">

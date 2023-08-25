@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { formatDistanceToNowStrict } from 'date-fns';
+import Link from 'next/link';
 
 const Post = ({
 	text,
@@ -19,7 +20,12 @@ const Post = ({
 					className="rounded-full"
 				></Image>
 				<div className="flex flex-col gap-0.5">
-					<span className="font-semibold text-slate-800">{username}</span>
+					<Link
+						href={`/user/${username}`}
+						className="font-semibold text-slate-800"
+					>
+						{username}
+					</Link>
 					<span className="text-xs text-slate-400 font-medium">{date}</span>
 				</div>
 			</div>

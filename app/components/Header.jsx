@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { getServerSession } from 'next-auth/next';
-import HeaderDropdown from './HeaderDropdown';
 import authOptions from '@/app/api/auth/[...nextauth]/authOptions';
+import HeaderDropdown from './HeaderDropdown';
 
 const Header = async () => {
 	const session = await getServerSession(authOptions);
@@ -18,7 +18,7 @@ const Header = async () => {
 					{/* Based on login */}
 
 					{session ? (
-						<HeaderDropdown />
+						<HeaderDropdown user={session.user} />
 					) : (
 						<div className="flex gap-6 items-center">
 							<Link href="login" className="btn btn-ghost normal-case py-2">
