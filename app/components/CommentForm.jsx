@@ -1,18 +1,22 @@
 'use client';
 import { useState } from 'react';
 
-const CommentForm = ({ postid }) => {
+const CommentForm = ({ postid, fetchPost }) => {
 	const [text, setText] = useState('');
 
 	const submitHandler = async (e) => {
 		e.preventDefault();
-
-		let data = await fetch(`/api/comments/${postid}`, {
-			method: 'POST',
-			body: JSON.stringify({ text }),
-			headers: { 'content-type': 'application/json' },
-		});
-		setText('');
+		try {
+			let data = await fetch(`/api/comments/${postid}`, {
+				method: 'POST',
+				body: JSON.stringify({ text }),
+				headers: { 'content-type': 'application/json' },
+			});
+			setText('');
+			fetchPost();
+		} catch (e) {
+			console.log('Error fetching data');
+		}
 	};
 	return (
 		<div>

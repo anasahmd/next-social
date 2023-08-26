@@ -1,5 +1,4 @@
 'use client';
-import { formatDistanceToNowStrict } from 'date-fns';
 import Post from './Post';
 
 const PostList = ({ posts }) => {
@@ -7,15 +6,7 @@ const PostList = ({ posts }) => {
 		<div className="flex flex-col gap-4 my-4">
 			{posts.map((value) => (
 				<div key={value._id}>
-					<Post
-						text={value.text}
-						username={value.user?.username}
-						date={formatDistanceToNowStrict(new Date(value.createdAt))}
-						profilePic={value.user?.profile}
-						postid={value._id}
-						likes={value.likes}
-						comments={value.comments}
-					/>
+					<Post value={value} />
 				</div>
 			))}
 		</div>

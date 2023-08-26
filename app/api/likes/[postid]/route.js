@@ -23,7 +23,7 @@ export const POST = async (req, { params }) => {
 		return NextResponse.json({ error: 'Post not found!' }, { status: 404 });
 	}
 
-	post.likes.push(user);
+	post.likes.push(session.user?.id);
 
 	try {
 		await post.save();

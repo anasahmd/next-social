@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 
-const PostForm = ({ fetchPost }) => {
+const PostForm = ({ fetchPosts }) => {
 	const [text, setText] = useState('');
 
 	const submitHandler = async (e) => {
@@ -14,7 +14,7 @@ const PostForm = ({ fetchPost }) => {
 			headers: { 'content-type': 'application/json' },
 		});
 		setText('');
-		fetchPost();
+		fetchPosts();
 	};
 
 	return (
