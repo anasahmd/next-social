@@ -3,17 +3,17 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 
 const PostForm = ({ fetchPost }) => {
-	const [post, setPost] = useState({ text: '' });
+	const [text, setText] = useState('');
 
 	const submitHandler = async (e) => {
 		e.preventDefault();
 
-		let data = await fetch('http://127.0.0.1:3000/api/post', {
+		let data = await fetch('/api/post', {
 			method: 'POST',
-			body: JSON.stringify(post),
+			body: JSON.stringify({ text }),
 			headers: { 'content-type': 'application/json' },
 		});
-		setPost({ text: '' });
+		setText('');
 		fetchPost();
 	};
 
@@ -41,9 +41,9 @@ const PostForm = ({ fetchPost }) => {
 						placeholder="What's on your mind?"
 						className="textarea textarea-ghost w-full px-2 text-base focus:outline-none"
 						rows={3}
-						value={post.text}
+						value={text}
 						onChange={(e) => {
-							setPost({ ...post, text: e.target.value });
+							setText(e.target.value);
 						}}
 					></textarea>
 				</div>

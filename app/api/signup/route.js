@@ -24,6 +24,6 @@ export const POST = async (req) => {
 
 		return NextResponse.json(savedUser);
 	} catch (e) {
-		return NextResponse.json(e.message);
+		return NextResponse.json({ error: e.message }, { status: 400 });
 	}
 };

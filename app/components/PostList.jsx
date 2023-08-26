@@ -13,6 +13,8 @@ const PostList = ({ posts }) => {
 						date={formatDistanceToNowStrict(new Date(value.createdAt))}
 						profilePic={value.user?.profile}
 						postid={value._id}
+						likes={value.likes}
+						comments={value.comments}
 					/>
 				</div>
 			))}

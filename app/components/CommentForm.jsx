@@ -7,7 +7,7 @@ const CommentForm = ({ postid }) => {
 	const submitHandler = async (e) => {
 		e.preventDefault();
 
-		let data = await fetch(`http://127.0.0.1:3000/api/comments/${postid}`, {
+		let data = await fetch(`/api/comments/${postid}`, {
 			method: 'POST',
 			body: JSON.stringify({ text }),
 			headers: { 'content-type': 'application/json' },

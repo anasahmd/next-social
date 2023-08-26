@@ -23,16 +23,9 @@ export const POST = async (req, { params }) => {
 		return NextResponse.json({ error: 'Post not found!' }, { status: 404 });
 	}
 
-	const comment = new Comment({
-		text: text,
-		user: session.user?.id,
-		post: post._id,
-	});
-
-	post.comments.push(comment);
+	post.likes.push(user);
 
 	try {
-		await comment.save();
 		await post.save();
 		return NextResponse.json(post);
 	} catch (e) {

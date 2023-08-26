@@ -3,10 +3,12 @@ import Post from '@/app/models/Post';
 import { getServerSession } from 'next-auth';
 import authOptions from '../../auth/[...nextauth]/authOptions';
 import { NextResponse } from 'next/server';
+import Comment from '@/app/models/Comment';
 
 export const POST = async (req, { params }) => {
 	Connect();
 	const { postid } = params;
+	const { text } = await req.json();
 
 	const session = await getServerSession(authOptions);
 
@@ -23,9 +25,16 @@ export const POST = async (req, { params }) => {
 		return NextResponse.json({ error: 'Post not found!' }, { status: 404 });
 	}
 
-	post.likes.push(user);
+	const comment = new Comment({
+		text: text,
+		user: session.user?.id,
+		post: post._id,
+	});
+
+	post.comments.push(comment);
 
 	try {
+		await comment.save();
 		await post.save();
 		return NextResponse.json(post);
 	} catch (e) {

@@ -9,16 +9,23 @@ import { useSession } from 'next-auth/react';
 const Post = ({
 	postid,
 	text,
-	username = 'null',
+	username,
 	date,
 	profilePic = '/default-profile.png',
+	likes,
+	comments,
 }) => {
 	const [showComment, setShowComment] = useState(false);
 
-	const { data: session, status } = useSession();
+	const { session, status } = useSession();
 
 	const showCommentHandler = () => {
 		setShowComment((prev) => (prev ? false : true));
+	};
+
+	const likeHandler = async () => {
+		const likeResponse = await fetch(`/likes/${postid}`, { method: 'POST' });
+		const data = await likeResponse.json();
 	};
 
 	return (
@@ -46,16 +53,19 @@ const Post = ({
 			</div>
 
 			<div className="flex divide-x w-full items-center">
-				<div className="flex flex-1 justify-center items-center py-3 cursor-pointer gap-2">
+				<div
+					className="flex flex-1 justify-center items-center py-3 cursor-pointer gap-2"
+					onClick={likeHandler}
+				>
 					<FavoriteBorderIcon fontSize="small" />
-					<span>10</span>
+					<span>{likes.length}</span>
 				</div>
 				<div
 					className="flex flex-1 justify-center items-center py-3 cursor-pointer gap-2"
 					onClick={showCommentHandler}
 				>
 					<ModeCommentOutlinedIcon fontSize="small" />
-					<span>10</span>
+					<span>{comments.length}</span>
 				</div>
 			</div>
 			{showComment && (
