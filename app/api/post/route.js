@@ -14,11 +14,7 @@ export const GET = async () => {
 			.populate({
 				path: 'comments',
 				populate: { path: 'user', select: ['username'] },
-			})
-			.populate({
-				path: 'likes',
 			});
-		console.log(data);
 		return NextResponse.json({ data });
 	} catch (e) {
 		return NextResponse.json({ error: e.message }, { status: 400 });

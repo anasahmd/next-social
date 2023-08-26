@@ -23,10 +23,16 @@ export const POST = async (req, { params }) => {
 		return NextResponse.json({ error: 'Post not found!' }, { status: 404 });
 	}
 
-	post.likes.push(session.user?.id);
-
 	try {
-		await post.save();
+		if (post.likes.includes(session.user?.id)) {
+			await Post.findByIdAndUpdate(postid, {
+				$pull: { likes: session.user?.id },
+			});
+		} else {
+			post.likes.push(session.user?.id);
+			await post.save();
+		}
+
 		return NextResponse.json(post);
 	} catch (e) {
 		return NextResponse.json({ error: e.message }, { status: 500 });

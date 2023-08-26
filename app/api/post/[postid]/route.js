@@ -12,10 +12,8 @@ export const GET = async (req, { params }) => {
 			.populate({
 				path: 'comments',
 				populate: { path: 'user', select: ['username'] },
-			})
-			.populate({
-				path: 'likes',
 			});
+
 		return NextResponse.json({ data });
 	} catch (e) {
 		return NextResponse.json({ msg: e.msg });

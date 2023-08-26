@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import Image from 'next/image';
 import CommentForm from './CommentForm';
 import { useState } from 'react';
@@ -24,7 +25,7 @@ const Post = ({ value }) => {
 		}
 	};
 
-	// const { session, status } = useSession();
+	const { data: session, status } = useSession();
 
 	const showCommentHandler = () => {
 		setShowComment((prev) => (prev ? false : true));
@@ -36,7 +37,6 @@ const Post = ({ value }) => {
 				method: 'POST',
 			});
 			const data = await likeResponse.json();
-			console.log(data);
 			fetchPost();
 		} catch (e) {
 			console.log('Something went wrong!');
@@ -71,11 +71,15 @@ const Post = ({ value }) => {
 
 			<div className="flex divide-x w-full items-center">
 				<div
-					className="flex flex-1 justify-center items-center py-3 cursor-pointer gap-2"
+					className="flex flex-1 justify-center items-center py-3 cursor-pointer gap-2 "
 					onClick={likeHandler}
 				>
-					<FavoriteBorderIcon fontSize="small" />
-					<span>{likes.length}</span>
+					{likes.includes(session?.user.id) ? (
+						<FavoriteIcon className="text-red-600" fontSize="small" />
+					) : (
+						<FavoriteBorderIcon fontSize="small" />
+					)}
+					<span className="text-sm">{likes.length}</span>
 				</div>
 				<div
 					className="flex flex-1 justify-center items-center py-3 cursor-pointer gap-2"
@@ -86,7 +90,11 @@ const Post = ({ value }) => {
 				</div>
 			</div>
 			{showComment && (
-				<div className="px-5 py-6">
+				<div
+					className={`px-5 py-6 transition-transform ${
+						showComment ? 'block' : 'hidden'
+					}`}
+				>
 					<CommentForm postid={value._id} fetchPost={fetchPost} />
 					{comments.length && (
 						<>
