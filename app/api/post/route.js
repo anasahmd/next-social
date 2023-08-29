@@ -9,12 +9,7 @@ export const GET = async () => {
 	Connect();
 	let data;
 	try {
-		data = await Post.find({})
-			.populate({ path: 'user', select: ['username'] })
-			.populate({
-				path: 'comments',
-				populate: { path: 'user', select: ['username'] },
-			});
+		data = await Post.find({}).populate({ path: 'user', select: ['username'] });
 		return NextResponse.json({ data });
 	} catch (e) {
 		return NextResponse.json({ error: e.message }, { status: 400 });

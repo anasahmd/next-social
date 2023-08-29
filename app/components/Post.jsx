@@ -7,33 +7,35 @@ import CommentForm from './CommentForm';
 import { useState } from 'react';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { useSession } from 'next-auth/react';
+import PostEditForm from './PostEditForm';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 const Post = ({ value }) => {
 	const [showComment, setShowComment] = useState(false);
-
-	const [comments, setComments] = useState(value.comments);
-	const [likes, setLikes] = useState(value.likes);
+	const [isEditing, setIsEditing] = useState(false);
+	const [post, setPost] = useState(value);
 
 	const fetchPost = async () => {
 		try {
-			const fetchData = await fetch(`/api/post/${value._id}`);
-			const post = await fetchData.json();
-			setComments(post.data.comments);
-			setLikes(post.data.likes);
+			const fetchData = await fetch(`/api/post/${post._id}`);
+			const postData = await fetchData.json();
+			setPost(postData.data);
 		} catch (e) {
+			console.log(e);
 			console.error('Error fetching data');
 		}
 	};
 
 	const { data: session, status } = useSession();
 
-	const showCommentHandler = () => {
+	const showCommentHandler = async () => {
 		setShowComment((prev) => (prev ? false : true));
+		fetchPost();
 	};
 
 	const likeHandler = async () => {
 		try {
-			const likeResponse = await fetch(`/api/likes/${value._id}`, {
+			const likeResponse = await fetch(`/api/likes/${post._id}`, {
 				method: 'POST',
 			});
 			const data = await likeResponse.json();
@@ -47,26 +49,57 @@ const Post = ({ value }) => {
 		<div className="bg-white w-[30rem] rounded-xl flex flex-col  shadow-sm divide-y">
 			<div className="p-4 flex flex-col gap-4">
 				<div className="flex gap-4 items-center ">
-					<Image
-						src={value.profilePic ? value.profilePic : '/default-profile.png'}
-						alt={`Profile Picture of ${value.user.username}`}
-						width={40}
-						height={40}
-						className="rounded-full"
-					></Image>
+					<div className="avatar placeholder">
+						<div className="bg-neutral-focus text-neutral-content rounded-full w-8">
+							<span className="text-sm">
+								{post.user.username.slice(0, 1).toUpperCase()}
+							</span>
+						</div>
+					</div>
 					<div className="flex flex-col gap-0.5 mt-1">
 						<Link
-							href={`/profile/${value.user.username}`}
+							href={`/profile/${post.user.username}`}
 							className="font-medium text-sm text-slate-800"
 						>
-							{value.user.username}
+							{post.user.username}
 						</Link>
 						<span className="text-xs text-slate-400 font-medium">
-							{formatDistanceToNowStrict(new Date(value.createdAt))}
+							{formatDistanceToNowStrict(new Date(post.createdAt))}
 						</span>
 					</div>
+					<div className="ms-auto dropdown dropdown-bottom dropdown-end">
+						<label tabIndex={0} className="m-1 cursor-pointer">
+							<MoreHorizIcon />
+						</label>
+						<ul
+							tabIndex={0}
+							className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+						>
+							<li>
+								<button className="text-red-500">Delete</button>
+							</li>
+							<li>
+								<button
+									onClick={() => {
+										setIsEditing(true);
+									}}
+								>
+									Edit
+								</button>
+							</li>
+						</ul>
+					</div>
 				</div>
-				<div className="text-slate-800">{value.text}</div>
+				{isEditing ? (
+					<PostEditForm
+						text={post.text}
+						postid={post._id}
+						setIsEditing={setIsEditing}
+						fetchPost={fetchPost}
+					/>
+				) : (
+					<div className="text-slate-800">{post.text}</div>
+				)}
 			</div>
 
 			<div className="flex divide-x w-full items-center">
@@ -74,19 +107,19 @@ const Post = ({ value }) => {
 					className="flex flex-1 justify-center items-center py-3 cursor-pointer gap-2 "
 					onClick={likeHandler}
 				>
-					{likes.includes(session?.user.id) ? (
+					{post.likes.includes(session?.user.id) ? (
 						<FavoriteIcon className="text-red-600" fontSize="small" />
 					) : (
 						<FavoriteBorderIcon fontSize="small" />
 					)}
-					<span className="text-sm">{likes.length}</span>
+					<span className="text-sm">{post.likes.length}</span>
 				</div>
 				<div
 					className="flex flex-1 justify-center items-center py-3 cursor-pointer gap-2"
 					onClick={showCommentHandler}
 				>
 					<ModeCommentOutlinedIcon fontSize="small" />
-					<span>{comments.length}</span>
+					<span>{post.comments.length}</span>
 				</div>
 			</div>
 			{showComment && (
@@ -95,12 +128,12 @@ const Post = ({ value }) => {
 						showComment ? 'block' : 'hidden'
 					}`}
 				>
-					<CommentForm postid={value._id} fetchPost={fetchPost} />
-					{comments.length && (
+					<CommentForm postid={post._id} fetchPost={fetchPost} />
+					{post.comments.length !== 0 && (
 						<>
 							<div>All Comments</div>
-							{comments.map((comment) => (
-								<div key={comment._id}>{comment.text}</div>
+							{post.comments.map((comment) => (
+								<div key={comment._id}></div>
 							))}
 						</>
 					)}

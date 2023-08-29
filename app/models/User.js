@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 import Post from './Post';
 
 const userSchema = new mongoose.Schema(
@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema(
 		password: { type: String, required: true },
 		bio: { type: String },
 		posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
+		followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+		following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 	},
 	{ timestamps: true }
 );
