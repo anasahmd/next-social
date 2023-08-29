@@ -10,7 +10,7 @@ import { useSession } from 'next-auth/react';
 import PostEditForm from './PostEditForm';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
-const Post = ({ value }) => {
+const Post = ({ value, fetchPosts }) => {
 	const [showComment, setShowComment] = useState(false);
 	const [isEditing, setIsEditing] = useState(false);
 	const [post, setPost] = useState(value);
@@ -45,6 +45,17 @@ const Post = ({ value }) => {
 		}
 	};
 
+	const deleteHandler = async () => {
+		try {
+			const deletResponse = await fetch(`/api/post/${post._id}`, {
+				method: 'DELETE',
+			});
+			fetchPosts();
+		} catch (e) {
+			console.log('Something went wrong');
+		}
+	};
+
 	return (
 		<div className="bg-white w-[30rem] rounded-xl flex flex-col  shadow-sm divide-y">
 			<div className="p-4 flex flex-col gap-4">
@@ -76,7 +87,9 @@ const Post = ({ value }) => {
 							className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
 						>
 							<li>
-								<button className="text-red-500">Delete</button>
+								<button className="text-red-500" onClick={deleteHandler}>
+									Delete
+								</button>
 							</li>
 							<li>
 								<button

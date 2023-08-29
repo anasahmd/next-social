@@ -23,7 +23,7 @@ export default function Home() {
 	return (
 		<main className="bg-slate-100 min-h-screen flex flex-col w-full items-center">
 			<PostForm fetchPosts={fetchPosts} />
-			{posts && <PostList posts={posts} />}
+			{posts && <PostList posts={posts} fetchPosts={fetchPosts} />}
 		</main>
 	);
 }

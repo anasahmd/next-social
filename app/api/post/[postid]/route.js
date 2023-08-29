@@ -52,3 +52,34 @@ export const PUT = async (req, { params }) => {
 		return NextResponse.json({ error: e.message }, { status: 400 });
 	}
 };
+
+export const DELETE = async (req, { params }) => {
+	Connect();
+	const { postid } = params;
+
+	const session = await getServerSession(authOptions);
+
+	if (!session) {
+		return NextResponse.json({ error: 'You are not logged in!' });
+	}
+
+	const post = await Post.findById(postid);
+
+	if (!post) {
+		return NextResponse.json({ error: 'Post not found!' }, { status: 400 });
+	}
+
+	if (!post.user.equals(session.user.id)) {
+		return NextResponse.json(
+			{ error: 'You are not allowed to do that!' },
+			{ status: 400 }
+		);
+	}
+	let data;
+	try {
+		data = await Post.findByIdAndDelete(postid);
+		return NextResponse.json({ data });
+	} catch (e) {
+		return NextResponse.json({ error: e.message }, { status: 400 });
+	}
+};
