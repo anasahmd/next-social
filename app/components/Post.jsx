@@ -10,6 +10,16 @@ import { useSession } from 'next-auth/react';
 import PostEditForm from './PostEditForm';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
+const Avatar = ({ text }) => {
+	return (
+		<div className="avatar placeholder">
+			<div className="bg-neutral-focus text-neutral-content rounded-full w-8 h-8">
+				<span className="text-sm">{text.slice(0, 1).toUpperCase()}</span>
+			</div>
+		</div>
+	);
+};
+
 const Post = ({ value, fetchPosts }) => {
 	const [showComment, setShowComment] = useState(false);
 	const [isEditing, setIsEditing] = useState(false);
@@ -21,7 +31,6 @@ const Post = ({ value, fetchPosts }) => {
 			const postData = await fetchData.json();
 			setPost(postData.data);
 		} catch (e) {
-			console.log(e);
 			console.error('Error fetching data');
 		}
 	};
@@ -29,8 +38,8 @@ const Post = ({ value, fetchPosts }) => {
 	const { data: session, status } = useSession();
 
 	const showCommentHandler = async () => {
+		await fetchPost();
 		setShowComment((prev) => (prev ? false : true));
-		fetchPost();
 	};
 
 	const likeHandler = async () => {
@@ -60,13 +69,7 @@ const Post = ({ value, fetchPosts }) => {
 		<div className="bg-white w-[30rem] rounded-xl flex flex-col  shadow-sm divide-y">
 			<div className="p-4 flex flex-col gap-4">
 				<div className="flex gap-4 items-center ">
-					<div className="avatar placeholder">
-						<div className="bg-neutral-focus text-neutral-content rounded-full w-8">
-							<span className="text-sm">
-								{post.user.username.slice(0, 1).toUpperCase()}
-							</span>
-						</div>
-					</div>
+					<Avatar text={post.user.username} />
 					<div className="flex flex-col gap-0.5 mt-1">
 						<Link
 							href={`/profile/${post.user.username}`}
@@ -146,7 +149,52 @@ const Post = ({ value, fetchPosts }) => {
 						<>
 							<div>All Comments</div>
 							{post.comments.map((comment) => (
-								<div key={comment._id}></div>
+								<div key={comment._id}>
+									<div className="p-4 flex gap-4 w-full justify-between">
+										<div className="w-1/12 mt-1">
+											<Avatar text={comment.user.username} />
+										</div>
+										<div className="flex w-11/12 flex-col">
+											<p className="break-words">
+												<Link
+													href={`/profile/${comment.user.username}`}
+													className="text-sm text-slate-800 me-2 font-semibold"
+												>
+													{comment.user.username}
+												</Link>
+												{comment.text}
+											</p>
+
+											<div className="flex items-center gap-4">
+												<span className="text-xs text-slate-400 font-medium">
+													{formatDistanceToNowStrict(
+														new Date(comment.createdAt)
+													)}
+												</span>
+												{/* dropdown */}
+												<div className="ms-auto dropdown dropdown-bottom dropdown-end">
+													<label tabIndex={0} className="m-1 cursor-pointer">
+														<MoreHorizIcon />
+													</label>
+													<ul
+														tabIndex={0}
+														className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+													>
+														<li>
+															<button
+																className="text-red-500"
+																onClick={deleteHandler}
+															>
+																Delete
+															</button>
+														</li>
+													</ul>
+												</div>
+												{/* dropdown end */}
+											</div>
+										</div>
+									</div>
+								</div>
 							))}
 						</>
 					)}
