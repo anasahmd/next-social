@@ -1,14 +1,15 @@
 'use client';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
 const ProfileCard = ({ defaultUser }) => {
+	const { data: session, status } = useSession();
+
 	const [user, setUser] = useState(defaultUser);
 
 	const fetchUser = async () => {
-		const fetchedData = await fetch(
-			`${process.env.NEXTAUTH_URL}/api/profile/${username}`
-		);
+		const fetchedData = await fetch(`/api/profile/${user.username}`);
 		const data = await fetchedData.json();
 		setUser(data.user);
 	};
@@ -40,12 +41,26 @@ const ProfileCard = ({ defaultUser }) => {
 				</div>
 				<div className=" text-sm text-slate-500">@{user.username}</div>
 				<div className="mt-4">
-					<button
-						className="btn normal-case hover:bg-blue-600 bg-blue-500 text-white rounded-md py-2 h-full text-sm btn-sm px-4"
-						onClick={followhandler}
-					>
-						Follow
-					</button>
+					{status == 'authenticated' && user._id == session.user?.id ? (
+						<button className="btn normal-case btn-outline rounded-md py-2 h-full text-sm btn-sm px-4 text-slate-700 hover:bg-slate-700 border-slate-300 border-1">
+							Edit Profile
+						</button>
+					) : status == 'authenticated' &&
+					  user.followers.includes(session.user?.id) ? (
+						<button
+							className="btn normal-case btn-outline rounded-md py-2 h-full text-sm btn-sm px-4 text-slate-700 hover:bg-blue-600 border-slate-300 border-1"
+							onClick={followhandler}
+						>
+							Following
+						</button>
+					) : (
+						<button
+							className="btn normal-case hover:bg-blue-600 bg-blue-500 text-white rounded-md py-2 h-full text-sm btn-sm px-4"
+							onClick={followhandler}
+						>
+							Follow
+						</button>
+					)}
 				</div>
 				<div className="mt-4 text-center text-slate-700">
 					{'Web Developer and CSE student'}

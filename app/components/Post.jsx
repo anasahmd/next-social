@@ -2,23 +2,13 @@ import Link from 'next/link';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import Image from 'next/image';
 import CommentForm from './CommentForm';
 import { useState } from 'react';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { useSession } from 'next-auth/react';
 import PostEditForm from './PostEditForm';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-
-const Avatar = ({ text }) => {
-	return (
-		<div className="avatar placeholder">
-			<div className="bg-neutral-focus text-neutral-content rounded-full w-8 h-8">
-				<span className="text-sm">{text.slice(0, 1).toUpperCase()}</span>
-			</div>
-		</div>
-	);
-};
+import Avatar from './Avatar';
 
 const Post = ({ value, fetchPosts }) => {
 	const [showComment, setShowComment] = useState(false);

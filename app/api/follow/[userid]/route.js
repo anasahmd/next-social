@@ -17,6 +17,10 @@ export const POST = async (req, { params }) => {
 		);
 	}
 
+	if (userid == session.user.id) {
+		return NextResponse.json({ error: `You cannot follow yourself!` });
+	}
+
 	const user = await User.findById(userid);
 	const sessionUser = await User.findById(session.user.id);
 
@@ -38,7 +42,6 @@ export const POST = async (req, { params }) => {
 			await user.save();
 			await sessionUser.save();
 		}
-
 		return NextResponse.json({ message: 'Success' });
 	} catch (e) {
 		return NextResponse.json({ error: e.message }, { status: 500 });

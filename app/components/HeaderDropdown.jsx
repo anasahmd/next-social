@@ -4,6 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import Avatar from './Avatar';
 
 const HeaderDropdown = ({ user }) => {
 	const router = useRouter();
@@ -15,15 +16,8 @@ const HeaderDropdown = ({ user }) => {
 	return (
 		<div className="flex-none gap-2">
 			<div className="dropdown dropdown-end">
-				<label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-					<div className="w-10 rounded-full">
-						<Image
-							src="/default-profile.png"
-							alt="Profile image"
-							width={35}
-							height={35}
-						/>
-					</div>
+				<label tabIndex={0} className="btn btn-ghost btn-circle h-auto">
+					<Avatar text={user.username} />
 				</label>
 				<ul
 					tabIndex={0}

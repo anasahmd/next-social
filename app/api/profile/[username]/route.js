@@ -4,7 +4,9 @@ import { NextResponse } from 'next/server';
 export const GET = async (req, { params }) => {
 	const { username } = params;
 	try {
-		const user = await User.findOne({ username }).select('-password');
+		const user = await User.findOne({ username })
+			.populate({ path: 'posts', populate: { path: 'user' } })
+			.select('-password');
 		if (!user) {
 			throw new Error('No user found');
 		}

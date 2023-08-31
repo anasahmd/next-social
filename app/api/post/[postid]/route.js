@@ -3,6 +3,7 @@ import Post from '@/app/models/Post';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import authOptions from '../../auth/[...nextauth]/authOptions';
+import User from '@/app/models/User';
 
 export const GET = async (req, { params }) => {
 	Connect();
@@ -77,6 +78,7 @@ export const DELETE = async (req, { params }) => {
 	}
 	let data;
 	try {
+		await User.findByIdAndUpdate(session.user.id, { $pull: { posts: postid } });
 		data = await Post.findByIdAndDelete(postid);
 		return NextResponse.json({ data });
 	} catch (e) {
