@@ -21,7 +21,7 @@ const Header = async () => {
 						<HeaderDropdown user={session.user} />
 					) : (
 						<div className="flex gap-6 items-center">
-							<Link href="login" className="btn btn-ghost normal-case py-2">
+							<Link href="/login" className="btn btn-ghost normal-case py-2">
 								Login
 							</Link>
 							<Link

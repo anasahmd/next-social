@@ -1,6 +1,7 @@
 'use client';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 const ProfileCard = ({ defaultUser }) => {
@@ -42,9 +43,12 @@ const ProfileCard = ({ defaultUser }) => {
 				<div className=" text-sm text-slate-500">@{user.username}</div>
 				<div className="mt-4">
 					{status == 'authenticated' && user._id == session.user?.id ? (
-						<button className="btn normal-case btn-outline rounded-md py-2 h-full text-sm btn-sm px-4 text-slate-700 hover:bg-slate-700 border-slate-300 border-1">
+						<Link
+							href="/settings"
+							className="btn normal-case btn-outline rounded-md py-2 h-full text-sm btn-sm px-4 text-slate-700 hover:bg-slate-700 border-slate-300 border-1"
+						>
 							Edit Profile
-						</button>
+						</Link>
 					) : status == 'authenticated' &&
 					  user.followers.includes(session.user?.id) ? (
 						<button
@@ -62,9 +66,9 @@ const ProfileCard = ({ defaultUser }) => {
 						</button>
 					)}
 				</div>
-				<div className="mt-4 text-center text-slate-700">
-					{'Web Developer and CSE student'}
-				</div>
+				{user.bio && (
+					<div className="mt-4 text-center text-slate-700">{user.bio}</div>
+				)}
 			</div>
 			<div className="flex divide-x w-full items-center">
 				<div className="flex-1 flex flex-col gap-1 items-center justify-center py-2">
