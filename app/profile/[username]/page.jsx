@@ -14,7 +14,7 @@ const page = async ({ params }) => {
 	return (
 		<main className="min-h-screen flex items-center flex-col">
 			{user && (
-				<div>
+				<div className="w-full">
 					<ProfileCard defaultUser={user} />
 					<UserPostList username={username} />
 				</div>

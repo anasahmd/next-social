@@ -17,7 +17,7 @@ const page = async () => {
 
 	return (
 		<main className=" flex  items-center min-h-screen flex-col gap-4 mt-10">
-			<div className="bg-white p-10 rounded-xl shadow-sm">
+			<div className="bg-white p-10 w-11/12 max-w-[30rem] rounded-xl shadow-sm">
 				<h1 className="text-3xl font-semibold">Settings</h1>
 				<UpdateUserForm user={user} />
 			</div>

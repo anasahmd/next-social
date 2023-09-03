@@ -18,7 +18,7 @@ const PostForm = ({ fetchPosts }) => {
 	};
 
 	return (
-		<div className="mt-10 bg-white w-[30rem] rounded-xl flex shadow-sm">
+		<div className="mt-10 bg-white max-w-[30rem] w-11/12 rounded-xl flex shadow-sm ">
 			<form
 				action=""
 				className="flex flex-col divide-y divide-slate-200 w-full"

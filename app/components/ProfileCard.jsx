@@ -26,7 +26,7 @@ const ProfileCard = ({ defaultUser }) => {
 		}
 	};
 	return (
-		<div className="mt-10 bg-white  w-[30rem] rounded-xl divide-y shadow-sm">
+		<div className="mt-10 bg-white  max-w-[30rem] w-11/12 rounded-xl divide-y shadow-sm mx-auto">
 			<div className="flex flex-col items-center  py-6 px-4">
 				<div>
 					<Image

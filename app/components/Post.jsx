@@ -56,7 +56,7 @@ const Post = ({ value, fetchPosts }) => {
 	};
 
 	return (
-		<div className="bg-white w-[30rem] rounded-xl flex flex-col  shadow-sm divide-y">
+		<div className="bg-white max-w-[30rem] w-11/12 mx-auto rounded-xl flex flex-col item-c shadow-sm divide-y">
 			<div className="p-4 flex flex-col gap-4">
 				<div className="flex gap-4 items-center ">
 					<Avatar text={post.user.username} />
