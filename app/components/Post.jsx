@@ -44,12 +44,26 @@ const Post = ({ value, fetchPosts }) => {
 		}
 	};
 
-	const deleteHandler = async () => {
+	const postDeleteHandler = async () => {
 		try {
 			const deletResponse = await fetch(`/api/post/${post._id}`, {
 				method: 'DELETE',
 			});
 			fetchPosts();
+		} catch (e) {
+			console.log('Something went wrong');
+		}
+	};
+
+	const commentDeleteHandler = async (commentid) => {
+		try {
+			const deletResponse = await fetch(
+				`/api/comments/${post._id}/${commentid}`,
+				{
+					method: 'DELETE',
+				}
+			);
+			fetchPost();
 		} catch (e) {
 			console.log('Something went wrong');
 		}
@@ -80,7 +94,7 @@ const Post = ({ value, fetchPosts }) => {
 							className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
 						>
 							<li>
-								<button className="text-red-500" onClick={deleteHandler}>
+								<button className="text-red-500" onClick={postDeleteHandler}>
 									Delete
 								</button>
 							</li>
@@ -173,7 +187,9 @@ const Post = ({ value, fetchPosts }) => {
 														<li>
 															<button
 																className="text-red-500"
-																onClick={deleteHandler}
+																onClick={() => {
+																	commentDeleteHandler(comment._id);
+																}}
 															>
 																Delete
 															</button>

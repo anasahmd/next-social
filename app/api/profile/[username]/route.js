@@ -2,8 +2,10 @@ import User from '@/app/models/User';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import authOptions from '../../auth/[...nextauth]/authOptions';
+import Connect from '@/app/db/dbConnect';
 
 export const GET = async (req, { params }) => {
+	Connect();
 	const { username } = params;
 	try {
 		const user = await User.findOne({ username })
@@ -19,6 +21,7 @@ export const GET = async (req, { params }) => {
 };
 
 export const PUT = async (req, { params }) => {
+	Connect();
 	const { username } = params;
 
 	const { bio } = await req.json();
