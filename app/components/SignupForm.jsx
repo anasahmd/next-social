@@ -37,12 +37,19 @@ const SignupForm = () => {
 				router.refresh();
 				router.push('/');
 			} else {
-				setError('Something went wrong!');
+				setError(signInResponse.error);
 			}
+		} else {
+			setError(signUpResponse.error);
 		}
 	};
 	return (
 		<div>
+			{error && (
+				<div className="bg-red-500 text-white px-4 py-2 rounded-xl mt-4 -mb-2 w-full">
+					{error}
+				</div>
+			)}
 			<form
 				action=""
 				className="flex flex-col gap-6 mt-8"
@@ -76,6 +83,7 @@ const SignupForm = () => {
 						onChange={(e) => {
 							setUserData({ ...userData, username: e.target.value });
 						}}
+						required
 					/>
 				</div>
 				<div className="flex flex-col gap-1">
@@ -91,6 +99,7 @@ const SignupForm = () => {
 						onChange={(e) => {
 							setUserData({ ...userData, email: e.target.value });
 						}}
+						required
 					/>
 				</div>
 				<div className="flex flex-col gap-1">
@@ -106,6 +115,7 @@ const SignupForm = () => {
 						onChange={(e) => {
 							setUserData({ ...userData, password: e.target.value });
 						}}
+						required
 					/>
 				</div>
 				<div className="flex justify-end mt-4">

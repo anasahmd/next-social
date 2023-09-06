@@ -50,6 +50,7 @@ const LoginForm = () => {
 						onChange={(e) => {
 							setEmail(e.target.value);
 						}}
+						required
 					/>
 				</div>
 				<div className="flex flex-col gap-1">
@@ -65,6 +66,7 @@ const LoginForm = () => {
 						onChange={(e) => {
 							setPassword(e.target.value);
 						}}
+						required
 					/>
 				</div>
 				<div className="flex  mt-4">

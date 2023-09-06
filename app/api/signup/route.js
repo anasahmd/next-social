@@ -2,12 +2,20 @@ import Connect from '@/app/db/dbConnect';
 import { NextResponse } from 'next/server';
 import { genSalt, hash } from 'bcrypt';
 import User from '@/app/models/User';
+import userSchema from '@/app/schemas/userSchema';
 
 export const POST = async (req) => {
 	Connect();
 	try {
 		const data = await req.json();
 		const { fullName, email, password, username } = data;
+
+		const validateUser = await userSchema.validateAsync({
+			fullName,
+			email,
+			password,
+			username,
+		});
 
 		const salt = await genSalt(10);
 
