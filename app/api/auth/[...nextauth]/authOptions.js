@@ -1,3 +1,4 @@
+import Connect from '@/app/db/dbConnect';
 import User from '@/app/models/User';
 import { compare } from 'bcrypt';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -23,6 +24,7 @@ const authOptions = {
 				},
 			},
 			async authorize(credentials) {
+				await Connect();
 				const user = await User.findOne({ email: credentials.email });
 				const validPassword = await compare(
 					credentials.password,
@@ -43,10 +45,30 @@ const authOptions = {
 	secret: process.env.NEXTAUTH_SECRET,
 
 	callbacks: {
+		async signIn({ user, account, profile }) {
+			await Connect();
+			if (account.provider === 'google') {
+				if (profile.email_verified) {
+					const data = await User.findOne({ email: profile.email });
+					if (data) {
+						user.id = data._id;
+						user.username = data.username;
+						return true;
+					} else {
+						return false;
+					}
+				}
+			}
+			return true;
+		},
 		async jwt({ token, user }) {
+			console.log(user);
 			if (user) {
-				token.id = user._id;
-				token.username = user.username;
+				return {
+					...token,
+					id: user._id,
+					username: user.username,
+				};
 			}
 			return token;
 		},

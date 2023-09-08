@@ -68,6 +68,7 @@ const SignupForm = () => {
 						onChange={(e) => {
 							setUserData({ ...userData, fullName: e.target.value });
 						}}
+						maxLength={30}
 					/>
 				</div>
 				<div className="flex flex-col gap-1">
@@ -84,6 +85,7 @@ const SignupForm = () => {
 							setUserData({ ...userData, username: e.target.value });
 						}}
 						required
+						maxLength={30}
 					/>
 				</div>
 				<div className="flex flex-col gap-1">

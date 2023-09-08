@@ -36,6 +36,7 @@ const UpdateUserForm = ({ user }) => {
 					onChange={(e) => {
 						setBio(e.target.value);
 					}}
+					maxLength={150}
 				></textarea>
 			</div>
 			<div className="flex justify-end mt-4">
