@@ -57,7 +57,7 @@ const Post = ({ value, fetchPosts }) => {
 
 	const commentDeleteHandler = async (commentid) => {
 		try {
-			const deletResponse = await fetch(
+			const deleteResponse = await fetch(
 				`/api/comments/${post._id}/${commentid}`,
 				{
 					method: 'DELETE',

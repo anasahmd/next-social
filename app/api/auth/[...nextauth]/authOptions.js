@@ -55,14 +55,41 @@ const authOptions = {
 						user.username = data.username;
 						return true;
 					} else {
-						return false;
+						const generateUniqueUsername = async (username, random = 1) => {
+							let genUsername = username;
+							if (random !== 1) {
+								genUsername =
+									genUsername + String(Math.floor(Math.random() * random));
+							}
+							let user = await User.findOne({ username: genUsername });
+							if (user) {
+								return generateUniqueUsername(username, random * 10);
+							} else {
+								return genUsername;
+							}
+						};
+
+						const username = await generateUniqueUsername(
+							user.email.split('@')[0]
+						);
+
+						const newUser = new User({
+							fullName: user.name,
+							email: user.email,
+							username,
+							dp: { url: user.image },
+						});
+						const saveUser = await newUser.save();
+						user.id = saveUser._id;
+						user.username = saveUser.username;
+						user.image = saveUser.dp.url;
+						return true;
 					}
 				}
 			}
 			return true;
 		},
 		async jwt({ token, user }) {
-			console.log(user);
 			if (user) {
 				return {
 					...token,

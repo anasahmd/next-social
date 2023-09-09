@@ -4,8 +4,9 @@ import Image from 'next/image';
 import { signIn } from 'next-auth/react';
 
 const GoogleSignIn = () => {
-	const handleClick = () => {
-		signIn('google');
+	const handleClick = async () => {
+		const signInResponse = await signIn('google', { callbackUrl: '/' });
+		console.log(signInResponse);
 	};
 	return (
 		<div className="mt-5">
