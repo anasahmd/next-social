@@ -73,7 +73,7 @@ const Post = ({ value, fetchPosts }) => {
 		<div className="bg-white max-w-[30rem] w-11/12 mx-auto rounded-xl flex flex-col item-c shadow-sm divide-y">
 			<div className="p-4 flex flex-col gap-4">
 				<div className="flex gap-4 items-center ">
-					<Avatar text={post.user.username} />
+					<Avatar username={post.user.username} />
 					<div className="flex flex-col gap-0.5 mt-1">
 						<Link
 							href={`/profile/${post.user.username}`}
@@ -156,7 +156,7 @@ const Post = ({ value, fetchPosts }) => {
 								<div key={comment._id}>
 									<div className="p-4 flex gap-4 w-full justify-between">
 										<div className="w-1/12 mt-1">
-											<Avatar text={comment.user.username} />
+											<Avatar username={comment.user.username} />
 										</div>
 										<div className="flex w-11/12 flex-col">
 											<p className="break-words">

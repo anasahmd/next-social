@@ -2,16 +2,21 @@
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import SubmitButton from './SubmitButton';
 
 const LoginForm = () => {
 	const router = useRouter();
+
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+
 	const [error, setError] = useState(null);
+	const [processing, setProcessing] = useState(false);
 
 	const submitHandler = async (e) => {
+		setProcessing(true);
 		e.preventDefault();
-
+		setError(null);
 		const signInResponse = await signIn('credentials', {
 			email,
 			password,
@@ -24,21 +29,13 @@ const LoginForm = () => {
 		} else {
 			setError('Email or password is incorrect!');
 		}
+		setProcessing(false);
 	};
 	return (
-		<>
-			{error && (
-				<div className="bg-red-500 text-white px-4 py-2 rounded-xl mt-4 -mb-2">
-					{error}
-				</div>
-			)}
-			<form
-				action=""
-				className="flex flex-col gap-6 mt-8"
-				onSubmit={submitHandler}
-			>
+		<div className="w-full">
+			<form action="" className="flex flex-col gap-4" onSubmit={submitHandler}>
 				<div className="flex flex-col gap-1">
-					<label htmlFor="email" className="font-medium text-slate-800">
+					<label htmlFor="email" className="font-medium text-slate-800 text-sm">
 						Email
 					</label>
 					<input
@@ -54,7 +51,10 @@ const LoginForm = () => {
 					/>
 				</div>
 				<div className="flex flex-col gap-1">
-					<label htmlFor="password" className="font-medium text-slate-800">
+					<label
+						htmlFor="password"
+						className="font-medium text-slate-800 text-sm"
+					>
 						Password
 					</label>
 					<input
@@ -69,16 +69,12 @@ const LoginForm = () => {
 						required
 					/>
 				</div>
-				<div className="flex  mt-4">
-					<button
-						type="submit"
-						className="btn bg-blue-500 hover:bg-blue-600 text-white rounded-xl py-2 text-center px-5 w-full"
-					>
-						Login
-					</button>
+				<div className="flex mt-2">
+					<SubmitButton text={'Login'} processing={processing} />
 				</div>
 			</form>
-		</>
+			{error && <div className="text-red-600 text-center mt-4">{error}</div>}
+		</div>
 	);
 };
 

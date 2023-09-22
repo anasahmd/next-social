@@ -3,6 +3,7 @@
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import SubmitButton from './SubmitButton';
 
 const SignupForm = () => {
 	const router = useRouter();
@@ -15,8 +16,11 @@ const SignupForm = () => {
 	});
 
 	const [error, setError] = useState(null);
+	const [processing, setProcessing] = useState(false);
 
 	const submitHandler = async (e) => {
+		setProcessing(true);
+		setError(null);
 		e.preventDefault();
 
 		let signUpResponse = await fetch('/api/signup', {
@@ -42,21 +46,16 @@ const SignupForm = () => {
 		} else {
 			setError(signUpResponse.error);
 		}
+		setProcessing(false);
 	};
 	return (
-		<div>
-			{error && (
-				<div className="bg-red-500 text-white px-4 py-2 rounded-xl mt-4 -mb-2 w-full">
-					{error}
-				</div>
-			)}
-			<form
-				action=""
-				className="flex flex-col gap-6 mt-8"
-				onSubmit={submitHandler}
-			>
+		<div className="w-full">
+			<form action="" className="flex flex-col gap-4" onSubmit={submitHandler}>
 				<div className="flex flex-col gap-1">
-					<label htmlFor="fullname" className="font-medium text-slate-800">
+					<label
+						htmlFor="fullname"
+						className="font-medium text-slate-800 text-sm"
+					>
 						Full Name
 					</label>
 					<input
@@ -72,7 +71,10 @@ const SignupForm = () => {
 					/>
 				</div>
 				<div className="flex flex-col gap-1">
-					<label htmlFor="username" className="font-medium text-slate-800">
+					<label
+						htmlFor="username"
+						className="font-medium text-slate-800 text-sm"
+					>
 						Username
 					</label>
 					<input
@@ -89,7 +91,7 @@ const SignupForm = () => {
 					/>
 				</div>
 				<div className="flex flex-col gap-1">
-					<label htmlFor="email" className="font-medium text-slate-800">
+					<label htmlFor="email" className="font-medium text-slate-800 text-sm">
 						Email
 					</label>
 					<input
@@ -105,7 +107,10 @@ const SignupForm = () => {
 					/>
 				</div>
 				<div className="flex flex-col gap-1">
-					<label htmlFor="password" className="font-medium text-slate-800">
+					<label
+						htmlFor="password"
+						className="font-medium text-slate-800 text-sm"
+					>
 						Password
 					</label>
 					<input
@@ -120,15 +125,11 @@ const SignupForm = () => {
 						required
 					/>
 				</div>
-				<div className="flex justify-end mt-4">
-					<button
-						type="submit"
-						className="btn bg-blue-500 hover:bg-blue-600 text-white rounded-xl py-2 text-center px-5 w-full"
-					>
-						Sign Up
-					</button>
+				<div className="flex justify-end mt-2">
+					<SubmitButton text={'Sign Up'} processing={processing} />
 				</div>
 			</form>
+			{error && <div className="text-red-600 text-center mt-4">{error}</div>}
 		</div>
 	);
 };

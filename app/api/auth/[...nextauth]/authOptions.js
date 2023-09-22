@@ -56,6 +56,9 @@ const authOptions = {
 						return true;
 					} else {
 						const generateUniqueUsername = async (username, random = 1) => {
+							if (random > 10000) {
+								throw new Error('Something went wrong!');
+							}
 							let genUsername = username;
 							if (random !== 1) {
 								genUsername =

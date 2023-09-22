@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema(
 			},
 			filename: String,
 		},
+		isBanned: { type: Boolean, default: false },
 	},
 	{ timestamps: true }
 );

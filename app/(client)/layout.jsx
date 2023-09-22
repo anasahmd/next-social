@@ -1,7 +1,7 @@
-import './globals.css';
+import '../globals.css';
 import { Inter } from 'next/font/google';
 import Header from './components/Header';
-import AuthProvider from './context/AuthProvider';
+import AuthProvider from '../context/AuthProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -13,7 +13,7 @@ export const metadata = {
 export default async function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			<body className={`${inter.className} bg-slate-100`}>
+			<body className={`${inter.className} sm:bg-slate-100`}>
 				<AuthProvider>
 					<Header />
 					{children}

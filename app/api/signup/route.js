@@ -10,6 +10,15 @@ export const POST = async (req) => {
 		const data = await req.json();
 		const { fullName, email, password, username } = data;
 
+		const emailUser = await User.findOne({ email });
+
+		if (emailUser) {
+			return NextResponse.json(
+				{ error: 'Email already exists!' },
+				{ status: 409 }
+			);
+		}
+
 		const validateUser = await userSchema.validateAsync({
 			fullName,
 			email,

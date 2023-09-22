@@ -26,16 +26,16 @@ export const POST = async (req) => {
 		return NextResponse.json({ msg: 'You are not logged in!' });
 	}
 
-	const user = await User.findById(session.user?.id);
-
-	const post = new Post({
-		text,
-		user: session.user?.id,
-	});
-
-	user.posts.push(post);
-
 	try {
+		const user = await User.findById(session.user?.id);
+
+		const post = new Post({
+			text,
+			user: session.user.id,
+		});
+
+		user.posts.push(post);
+
 		await post.save();
 		await user.save();
 		return NextResponse.json(post);

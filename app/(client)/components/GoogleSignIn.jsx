@@ -6,10 +6,9 @@ import { signIn } from 'next-auth/react';
 const GoogleSignIn = () => {
 	const handleClick = async () => {
 		const signInResponse = await signIn('google', { callbackUrl: '/' });
-		console.log(signInResponse);
 	};
 	return (
-		<div className="mt-5">
+		<div className="w-full">
 			<button
 				className="btn w-full flex justify-center items-center gap-2 py-2 rounded-xl border-2 border-slate-200 bg-white "
 				onClick={handleClick}

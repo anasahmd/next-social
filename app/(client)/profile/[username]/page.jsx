@@ -1,5 +1,5 @@
-import ProfileCard from '@/app/components/ProfileCard';
-import UserPostList from '@/app/components/UserPostList';
+import ProfileCard from '@/app/(client)/components/ProfileCard';
+import UserPostList from '@/app/(client)/components/UserPostList';
 
 const page = async ({ params }) => {
 	const { username } = params;

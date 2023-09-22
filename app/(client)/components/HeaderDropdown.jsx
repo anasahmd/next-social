@@ -17,17 +17,7 @@ const HeaderDropdown = ({ user }) => {
 		<div className="flex-none gap-2">
 			<div className="dropdown dropdown-end">
 				<label tabIndex={0} className="btn btn-ghost btn-circle h-auto">
-					{user.image ? (
-						<Image
-							src={user.image}
-							alt={`Profile picture of ${user.username}`}
-							width={40}
-							height={40}
-							className="rounded-full"
-						/>
-					) : (
-						<Avatar text={user.username} />
-					)}
+					<Avatar username={user.username} image={user.image} />
 				</label>
 				<ul
 					tabIndex={0}
