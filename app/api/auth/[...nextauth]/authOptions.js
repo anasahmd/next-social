@@ -54,7 +54,6 @@ const authOptions = {
 						//this gets passed to jwt user should have user._id
 						user._id = data._id;
 						user.username = data.username;
-						console.log(user);
 						return true;
 					} else {
 						const generateUniqueUsername = async (username, random = 1) => {

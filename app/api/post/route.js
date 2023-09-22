@@ -21,7 +21,6 @@ export const POST = async (req) => {
 	const { text } = await req.json();
 
 	const session = await getServerSession(authOptions);
-	console.log(session);
 
 	if (!session) {
 		return NextResponse.json({ msg: 'You are not logged in!' });
@@ -33,7 +32,6 @@ export const POST = async (req) => {
 		text,
 		user: session.user?.id,
 	});
-	console.log(user);
 
 	user.posts.push(post);
 
