@@ -51,8 +51,10 @@ const authOptions = {
 				if (profile.email_verified) {
 					const data = await User.findOne({ email: profile.email });
 					if (data) {
-						user.id = data._id;
+						//this gets passed to jwt user should have user._id
+						user._id = data._id;
 						user.username = data.username;
+						console.log(user);
 						return true;
 					} else {
 						const generateUniqueUsername = async (username, random = 1) => {
@@ -94,11 +96,8 @@ const authOptions = {
 		},
 		async jwt({ token, user }) {
 			if (user) {
-				return {
-					...token,
-					id: user._id,
-					username: user.username,
-				};
+				token.id = user._id;
+				token.username = user.username;
 			}
 			return token;
 		},

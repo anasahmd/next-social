@@ -21,21 +21,23 @@ export const POST = async (req) => {
 	const { text } = await req.json();
 
 	const session = await getServerSession(authOptions);
+	console.log(session);
 
 	if (!session) {
 		return NextResponse.json({ msg: 'You are not logged in!' });
 	}
 
+	const user = await User.findById(session.user?.id);
+
+	const post = new Post({
+		text,
+		user: session.user?.id,
+	});
+	console.log(user);
+
+	user.posts.push(post);
+
 	try {
-		const user = await User.findById(session.user?.id);
-
-		const post = new Post({
-			text,
-			user: session.user.id,
-		});
-
-		user.posts.push(post);
-
 		await post.save();
 		await user.save();
 		return NextResponse.json(post);

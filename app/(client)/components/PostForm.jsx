@@ -1,12 +1,9 @@
 'use client';
-import { AddPhotoAlternate } from '@mui/icons-material';
 import Image from 'next/image';
 import React, { useState } from 'react';
 
 const PostForm = ({ fetchPosts }) => {
 	const [text, setText] = useState('');
-	const [file, setFile] = useState(null);
-	const [imageSrc, setImageSrc] = useState(null);
 
 	const submitHandler = async (e) => {
 		e.preventDefault();
@@ -18,16 +15,6 @@ const PostForm = ({ fetchPosts }) => {
 		});
 		setText('');
 		fetchPosts();
-	};
-
-	const handleFileInput = (e) => {
-		const file = e.target.files[0];
-		setFile(file);
-		const reader = new FileReader();
-		reader.onload = (event) => {
-			setImageSrc(event.target.result);
-		};
-		reader.readAsDataURL(file);
 	};
 
 	return (
@@ -60,25 +47,7 @@ const PostForm = ({ fetchPosts }) => {
 						}}
 					></textarea>
 				</div>
-				<div className="px-4 py-4 flex justify-between items-center">
-					<label htmlFor="file-input">
-						<span className="btn bg-transparent border-none">
-							<AddPhotoAlternate
-								fontSize="large"
-								className="text-slate-800  "
-							/>
-						</span>
-						<input
-							type="file"
-							className="hidden"
-							id="file-input"
-							name="file"
-							onChange={(e) => handleFileInput(e)}
-						/>
-					</label>
-					{imageSrc && (
-						<Image src={imageSrc} alt="image" width={100} height={100} />
-					)}
+				<div className="px-4 py-4 flex justify-end">
 					<button
 						type="submit"
 						className="btn hover:bg-blue-600 bg-blue-500 text-white rounded-xl py-3 h-full text-center px-4 btn-sm"
