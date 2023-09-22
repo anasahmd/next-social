@@ -10,7 +10,7 @@ const page = () => {
 				<h1 className="text-2xl font-semibold ">Login</h1>
 				<LoginForm />
 				<div>
-					Don't have an account? <Link href="/signup">Signup</Link>
+					{`Don't`} have an account? <Link href="/signup">Signup</Link>
 				</div>
 				<div className="divider">OR</div>
 				<GoogleSignIn />

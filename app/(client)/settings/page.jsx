@@ -1,6 +1,7 @@
 import { getServerSession } from 'next-auth';
+
+import authOptions from '@/app/api/auth/[...nextauth]/authOptions';
 import UpdateUserForm from '../components/UpdateUserForm';
-import authOptions from '../api/auth/[...nextauth]/authOptions';
 
 const page = async () => {
 	const session = await getServerSession(authOptions);
