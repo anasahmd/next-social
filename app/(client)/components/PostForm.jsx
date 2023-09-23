@@ -1,8 +1,10 @@
 'use client';
-import Image from 'next/image';
 import React, { useState } from 'react';
+import Avatar from './Avatar';
+import { useSession } from 'next-auth/react';
 
 const PostForm = ({ fetchPosts }) => {
+	const { data: session, status } = useSession();
 	const [text, setText] = useState('');
 
 	const submitHandler = async (e) => {
@@ -27,14 +29,17 @@ const PostForm = ({ fetchPosts }) => {
 				<label htmlFor="text" className="p-4 font-semibold text-slate-800">
 					Post Something
 				</label>
-				<div className="flex p-4 gap-4 w-full items-start">
-					<Image
-						src="/default-profile.png"
-						alt=""
-						width={40}
-						height={40}
-						className="rounded-full "
-					/>
+				<div className="flex p-4 gap-4  items-start">
+					{session && (
+						<div className="w-10">
+							<Avatar
+								username={session.user.username}
+								image={session.user.image}
+								size={56}
+							/>
+						</div>
+					)}
+
 					<textarea
 						type="text"
 						id="text"

@@ -3,6 +3,7 @@ import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import Avatar from './Avatar';
 
 const ProfileCard = ({ defaultUser }) => {
 	const { data: session, status } = useSession();
@@ -29,13 +30,7 @@ const ProfileCard = ({ defaultUser }) => {
 		<div className="mt-10 bg-white  max-w-[30rem] w-11/12 rounded-xl divide-y shadow-sm mx-auto">
 			<div className="flex flex-col items-center  py-6 px-4">
 				<div>
-					<Image
-						src="/default-profile.png"
-						className=""
-						alt={`Profile image of ${user.fullName}`}
-						width={75}
-						height={75}
-					></Image>
+					<Avatar username={user.username} image={user.dp.url} size={75} />
 				</div>
 				<div className="font-medium text-xl mt-4 text-slate-700">
 					{user?.fullName}

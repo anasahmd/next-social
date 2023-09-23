@@ -11,10 +11,11 @@ export const GET = async (req, { params }) => {
 	let data;
 	try {
 		data = await Post.findById(postid)
-			.populate({ path: 'user', select: ['username'] })
+			.populate({ path: 'user', select: ['username', 'dp'] })
 			.populate({
 				path: 'comments',
-				populate: { path: 'user', select: ['username'] },
+				populate: { path: 'user', select: ['username', 'dp'] },
+				options: { sort: { createdAt: -1 } },
 			});
 		return NextResponse.json({ data });
 	} catch (e) {

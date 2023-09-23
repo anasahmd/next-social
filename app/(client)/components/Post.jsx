@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
@@ -9,9 +10,9 @@ import { useSession } from 'next-auth/react';
 import PostEditForm from './PostEditForm';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Avatar from './Avatar';
+import Comment from './Comment';
 
-const Post = ({ value, fetchPosts }) => {
-	const [showComment, setShowComment] = useState(false);
+const Post = ({ value, showComment = false }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [post, setPost] = useState(value);
 
@@ -26,11 +27,6 @@ const Post = ({ value, fetchPosts }) => {
 	};
 
 	const { data: session, status } = useSession();
-
-	const showCommentHandler = async () => {
-		await fetchPost();
-		setShowComment((prev) => (prev ? false : true));
-	};
 
 	const likeHandler = async () => {
 		try {
@@ -49,21 +45,6 @@ const Post = ({ value, fetchPosts }) => {
 			const deletResponse = await fetch(`/api/post/${post._id}`, {
 				method: 'DELETE',
 			});
-			fetchPosts();
-		} catch (e) {
-			console.log('Something went wrong');
-		}
-	};
-
-	const commentDeleteHandler = async (commentid) => {
-		try {
-			const deleteResponse = await fetch(
-				`/api/comments/${post._id}/${commentid}`,
-				{
-					method: 'DELETE',
-				}
-			);
-			fetchPost();
 		} catch (e) {
 			console.log('Something went wrong');
 		}
@@ -72,8 +53,17 @@ const Post = ({ value, fetchPosts }) => {
 	return (
 		<div className="bg-white max-w-[30rem] w-11/12 mx-auto rounded-xl flex flex-col item-c shadow-sm divide-y">
 			<div className="p-4 flex flex-col gap-4">
-				<div className="flex gap-4 items-center ">
-					<Avatar username={post.user.username} />
+				<div className="flex gap-4 items-center">
+					{session && (
+						<div className="w-10 h-10">
+							<Avatar
+								username={post.user.username}
+								image={post.user.dp.url}
+								size={32}
+							/>
+						</div>
+					)}
+
 					<div className="flex flex-col gap-0.5 mt-1">
 						<Link
 							href={`/profile/${post.user.username}`}
@@ -134,13 +124,13 @@ const Post = ({ value, fetchPosts }) => {
 					)}
 					<span className="text-sm">{post.likes.length}</span>
 				</div>
-				<div
+				<Link
+					href={`/post/${post._id}`}
 					className="flex flex-1 justify-center items-center py-3 cursor-pointer gap-2"
-					onClick={showCommentHandler}
 				>
 					<ModeCommentOutlinedIcon fontSize="small" />
 					<span>{post.comments.length}</span>
-				</div>
+				</Link>
 			</div>
 			{showComment && (
 				<div
@@ -154,52 +144,7 @@ const Post = ({ value, fetchPosts }) => {
 							<div>All Comments</div>
 							{post.comments.map((comment) => (
 								<div key={comment._id}>
-									<div className="p-4 flex gap-4 w-full justify-between">
-										<div className="w-1/12 mt-1">
-											<Avatar username={comment.user.username} />
-										</div>
-										<div className="flex w-11/12 flex-col">
-											<p className="break-words">
-												<Link
-													href={`/profile/${comment.user.username}`}
-													className="text-sm text-slate-800 me-2 font-semibold"
-												>
-													{comment.user.username}
-												</Link>
-												{comment.text}
-											</p>
-
-											<div className="flex items-center gap-4">
-												<span className="text-xs text-slate-400 font-medium">
-													{formatDistanceToNowStrict(
-														new Date(comment.createdAt)
-													)}
-												</span>
-												{/* dropdown */}
-												<div className="ms-auto dropdown dropdown-bottom dropdown-end">
-													<label tabIndex={0} className="m-1 cursor-pointer">
-														<MoreHorizIcon />
-													</label>
-													<ul
-														tabIndex={0}
-														className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-													>
-														<li>
-															<button
-																className="text-red-500"
-																onClick={() => {
-																	commentDeleteHandler(comment._id);
-																}}
-															>
-																Delete
-															</button>
-														</li>
-													</ul>
-												</div>
-												{/* dropdown end */}
-											</div>
-										</div>
-									</div>
+									<Comment comment={comment} fetchPost={fetchPost} />
 								</div>
 							))}
 						</>

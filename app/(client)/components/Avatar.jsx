@@ -1,15 +1,15 @@
 import Image from 'next/image';
 
-const Avatar = ({ username, image }) => {
+const Avatar = ({ username, image, size = 40 }) => {
 	return (
-		<div className="avatar placeholder">
+		<div className="avatar placeholder w-full">
 			{image ? (
 				<Image
 					src={image}
 					alt={`Profile picture of ${username}`}
-					width={40}
-					height={40}
-					className="rounded-full"
+					width={size}
+					height={size}
+					className="rounded-full w-full aspect-square"
 				/>
 			) : (
 				<div className="bg-neutral-focus text-neutral-content rounded-full aspect-square h-8">
