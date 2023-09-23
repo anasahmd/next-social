@@ -84,7 +84,7 @@ const authOptions = {
 							dp: { url: user.image },
 						});
 						const saveUser = await newUser.save();
-						user.id = saveUser._id;
+						user._id = saveUser._id;
 						user.username = saveUser.username;
 						user.image = saveUser.dp.url;
 						return true;
